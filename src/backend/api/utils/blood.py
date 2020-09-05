@@ -1,7 +1,7 @@
 ## imports
 import numpy as np
 
-#Distancing Algorithm
+# Distancing Algorithm
 def haversine_distance(lat1, lon1, lat2, lon2):
    r = 6371 # Radius of Earth
    phi1 = np.radians(lat1)
@@ -12,7 +12,7 @@ def haversine_distance(lat1, lon1, lat2, lon2):
    res = r * (2 * np.arctan2(np.sqrt(a), np.sqrt(1-a)))
    return np.round(res, 2)
 
-#Driver Function
+# Driver Function
 def withinRange(requestLocation, donorLocation, radius):
     lat1 = requestLocation[0]
     lon1 = requestLocation[1]
@@ -29,4 +29,4 @@ def withinRange(requestLocation, donorLocation, radius):
 
 # Test Case
 if __name__ == "__main__":
-    print(withinRange((22.8637511,88.3669716), (26.8704699,88.3593088), 30.00))
+    print(withinRange((22.8637511,88.3669716), (22.9531,88.3759), 9.00))
