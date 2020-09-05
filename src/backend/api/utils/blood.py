@@ -1,16 +1,9 @@
 ## imports
-import numpy as np
+import requests
+import json
 
-# Distancing Algorithm
-def haversine_distance(lat1, lon1, lat2, lon2):
-   r = 6371 # Radius of Earth
-   phi1 = np.radians(lat1)
-   phi2 = np.radians(lat2)
-   delta_phi = np.radians(lat2-lat1)
-   delta_lambda = np.radians(lon2-lon1)
-   a = np.sin(delta_phi / 2)**2 + np.cos(phi1) * np.cos(phi2) *  np.sin(delta_lambda / 2)**2
-   res = r * (2 * np.arctan2(np.sqrt(a), np.sqrt(1-a)))
-   return np.round(res, 2)
+#Key
+key = ENVIRONMENT_KEY
 
 # Driver Function
 def withinRange(requestLocation, donorLocation, radius):
@@ -19,14 +12,21 @@ def withinRange(requestLocation, donorLocation, radius):
 
     lat2 = donorLocation[0]
     lon2 = donorLocation[1]
-    
+
+    #URL
+    _url_ = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+str(lat1)+","+str(lon1)+"&destinations="+str(lat2)+","+str(lon2)+"&mode=driving&language=en-EN&key="+key
+    data = json.loads(requests.get(_url_).text)
+    #dest = data["destination_addresses"][0]                            Destination Name
+    #orig = data["origin_addresses"][0]                                 Origin Name
+    dist = data["rows"][0]["elements"][0]["distance"]["value"]/1000     #In Km
+    time = data["rows"][0]["elements"][0]["duration"]["value"]          #In Secs
     #Consider the radius as float
-    if haversine_distance(lat1, lon1, lat2, lon2) < radius:
-        return True
+    if dist <= radius:
+        return True, time
     else:
-        return False
+        return False, None
     ## returns True or False whether the user is in range or not
 
 # Test Case
 if __name__ == "__main__":
-    print(withinRange((22.8637511,88.3669716), (22.9531,88.3759), 9.00))
+    print(withinRange((22.8637511,88.3669716), (22.9531,88.3759), 12.00))
