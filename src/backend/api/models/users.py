@@ -11,6 +11,7 @@ class User(db.Model):
     first_name = db.Column(db.String(100))
     last_name = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
+    phone = db.Column(db.String(15), unique=True)
     password = db.Column(db.String(100))
     lat = db.Column(db.String(6))
     lon = db.Column(db.String(6))
@@ -23,6 +24,7 @@ class User(db.Model):
         first_name,
         last_name,
         email,
+        phone,
         password,
         location,
         bloodgroup,
@@ -33,6 +35,7 @@ class User(db.Model):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
+        self.phone = phone
         self.password = bcrypt.generate_password_hash(
             password, app.config.get("BCRYPT_LOG_ROUNDS")
         ).decode()
@@ -44,3 +47,15 @@ class User(db.Model):
 
     def __repr__(self):
         return f"<User(name={self.first_name})>"
+
+    @property
+    def serialize(self):
+        return {
+            "firstName": self.first_name,
+            "lastName": self.last_name,
+            "email": self.email,
+            "phone": self.phone,
+            "location": (self.lat, self.lon),
+            "dob": self.dob,
+            "weight": self.weight,
+        }

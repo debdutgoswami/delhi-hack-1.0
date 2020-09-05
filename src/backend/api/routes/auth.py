@@ -1,7 +1,6 @@
 from flask import request, make_response, jsonify, url_for
 import uuid, jwt, datetime
 from functools import wraps
-from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
 
 from api import app, bcrypt
 from api.routes import api
@@ -47,8 +46,8 @@ def signup():
         401 -- fail (unknown error)
     """
     data = request.get_json(silent=True)
-    print(data)
-    fname, lname, email, password, blood, dob, weight, lat, lon = (
+
+    fname, lname, email, password, blood, dob, weight, lat, lon, phone = (
         data.get("firstName"),
         data.get("lastName"),
         data.get("email"),
@@ -58,6 +57,7 @@ def signup():
         data.get("weight"),
         data.get("lat"),
         data.get("long"),
+        data.get("phone"),
     )
 
     user = User.query.filter_by(email=email).first()
@@ -69,6 +69,7 @@ def signup():
                 first_name=fname,
                 last_name=lname,
                 email=email,
+                phone=phone,
                 password=password,
                 location=(lat, lon),
                 bloodgroup=blood,
