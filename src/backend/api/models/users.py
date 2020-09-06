@@ -4,7 +4,7 @@ from api.models import db
 
 # Database ORMs
 class User(db.Model):
-    __tablename__ = "users"
+    __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True)
     public_id = db.Column(db.String(100), unique=True)
@@ -30,6 +30,7 @@ class User(db.Model):
         bloodgroup,
         dob,
         weight,
+        sex,
     ):
         self.public_id = str(uuid.uuid4())
         self.first_name = first_name
@@ -44,6 +45,7 @@ class User(db.Model):
         self.bloodgroup = bloodgroup
         self.dob = dob
         self.weight = weight
+        self.sex = sex
 
     def __repr__(self):
         return f"<User(name={self.first_name})>"
@@ -51,6 +53,7 @@ class User(db.Model):
     @property
     def serialize(self):
         return {
+            "public_id": self.public_id,
             "firstName": self.first_name,
             "lastName": self.last_name,
             "email": self.email,
@@ -58,4 +61,5 @@ class User(db.Model):
             "location": (self.lat, self.lon),
             "dob": self.dob,
             "weight": self.weight,
+            "sex": self.sex,
         }

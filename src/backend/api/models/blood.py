@@ -25,20 +25,33 @@ class Blood(db.Model):
         phone,
         location,
         bloodgroup,
-        gender,
+        sex,
         age,
-        created,
     ):
-        self.public_id = uuid.uuid4()
+        self.public_id = str(uuid.uuid4())
         self.first_name = first_name
         self.last_name = last_name
         self.phone = phone
         self.lat = location[0]
         self.lon = location[1]
         self.bloodgroup = bloodgroup
-        self.gender = gender
+        self.sex = sex
         self.age = age
-        self.created = created
+        self.created = datetime.datetime.now().date()
+
+    @property
+    def serialize(self):
+        return {
+            "public_id": self.public_id,
+            "firstName": self.first_name,
+            "lastName": self.last_name,
+            "phone": self.phone,
+            "location": (self.lat, self.lon),
+            "blood": self.bloodgroup,
+            "sex": self.sex,
+            "age": self.age,
+            "created": self.created,
+        }
 
     def __repr__(self):
         return f"<Blood(name={self.first_name}, blood={self.bloodgroup})>"

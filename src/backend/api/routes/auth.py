@@ -34,12 +34,21 @@ def token_required(f):
 # signup route
 @api.route("/register", methods=["POST"])
 def signup():
-    """User Signup
+    """
+    User Signup (/register)
+
     POST DATA:
-    fname : First Name of the User
-    lname : Last Name of the User
+    firstName : First Name of the User
+    lastName : Last Name of the User
     email : Email of the User
     password : Password of the user
+    blood : blood group
+    dob : DD/MM/YYYY
+    weight : weight
+    lat : float
+    long : float
+    phone : 10digit
+
     Returns:
         201 -- success
         202 -- fail (user already exists)
@@ -47,7 +56,7 @@ def signup():
     """
     data = request.get_json(silent=True)
 
-    fname, lname, email, password, blood, dob, weight, lat, lon, phone = (
+    fname, lname, email, password, blood, dob, weight, lat, lon, phone, sex = (
         data.get("firstName"),
         data.get("lastName"),
         data.get("email"),
@@ -58,6 +67,7 @@ def signup():
         data.get("lat"),
         data.get("long"),
         data.get("phone"),
+        data.get("sex"),
     )
 
     user = User.query.filter_by(email=email).first()
@@ -75,6 +85,7 @@ def signup():
                 bloodgroup=blood,
                 dob=dob,
                 weight=weight,
+                sex=sex,
             )
             # insert user
             db.session.add(user)
