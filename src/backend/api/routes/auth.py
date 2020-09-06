@@ -137,7 +137,7 @@ def login():
                 "public_id": user.public_id,
                 "name": user.first_name,
                 "email": user.email,
-                "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=30),
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1),
             },
             app.config["SECRET_KEY"],
         )
