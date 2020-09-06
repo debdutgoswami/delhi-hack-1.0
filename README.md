@@ -13,5 +13,10 @@ By making the Online Blood Bank management system we intend to bridge the gap be
 ## Working Diagram
 
 <p align="center">
-    <img width='600' src="https://github.com/Neilblaze/Hally/blob/master/Images/woman.png">
+    <img width='600' src="https://github.com/swapnanildutta/delhi-hack-1.0/blob/master/images/working.jpg">
 </p>
+
+## Technologies Used
+- Flask
+- Flutter/Dart
+- Maps API
